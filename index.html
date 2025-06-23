@@ -30,11 +30,20 @@
     }
     .hero {
       background: linear-gradient(to right, #1a4d2e, #48b26b);
-      padding: 80px 20px 60px;
+      padding: 50px 20px 40px;
       border-bottom-left-radius: 60px;
       border-bottom-right-radius: 60px;
       color: white;
       text-align: center;
+    }
+    .hero img {
+      width: 100px;
+      height: 100px;
+      border: 5px solid white;
+      border-radius: 50%;
+      margin-bottom: -10px;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
     }
     .hero h1 {
       font-size: 2.5rem;
@@ -108,23 +117,64 @@
       margin-bottom: 20px;
       font-weight: 500;
     }
-    @media screen and (max-width: 600px) {
-      .hero h1 {
-        font-size: 1.8rem;
-      }
-      .hero p {
-        font-size: 1rem;
-      }
-      header {
-        flex-direction: row;
-        padding: 10px 15px;
-      }
-      .brand-logo {
-        height: 40px;
-      }
-      .brand-name {
-        font-size: 1.1rem;
-      }
+    .overlay, .popup {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 9999;
+    }
+    .popup-box {
+      background: #fff;
+      padding: 25px 15px;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+      max-width: 250px;
+      width: 75%;
+    }
+    .popup-box h3 {
+      color: #0078d4;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .popup-box p {
+      font-size: 12px;
+      color: #333;
+    }
+    .popup-box button {
+      margin-top: 20px;
+      background-color: #0078d4;
+      color: white;
+      font-size: 12px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .popup-box button:hover {
+      background-color: #005a9e;
+    }
+    .loading-text {
+      font-size: 18px;
+      color: #0078d4;
+      text-align: center;
+    }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #0078d4;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 15px auto;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
   </style>
 </head>
@@ -135,7 +185,7 @@
   </header>
 
   <section class="hero">
-    <img src="2.png" alt="Framed VTU Logo" style="width:100px;height:100px;border:5px solid white;border-radius:50%;margin-top:0px;margin-bottom:-10px;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.2);" />
+    <img src="2.png" alt="Framed VTU Logo" />
     <h1>YouTube Partner Hiring</h1>
     <p>Zero Fee | Get Paid Immediately | Apply if you’re a topper or want experience!</p>
     <button class="btn" onclick="document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' })">Apply Now</button>
@@ -187,6 +237,21 @@
     </form>
   </section>
 
+  <div class="overlay" id="loadingOverlay">
+    <div>
+      <div class="loader"></div>
+      <div class="loading-text">Processing your application...</div>
+    </div>
+  </div>
+
+  <div class="popup" id="popup">
+    <div class="popup-box">
+      <h3>Successfully Registered!</h3>
+      <p>Please check your email for further updates regarding your work.</p>
+      <button onclick="window.location.reload()">OK</button>
+    </div>
+  </div>
+
   <script>
     document.getElementById("ytPartnerForm").addEventListener("submit", function(e) {
       e.preventDefault();
@@ -198,7 +263,9 @@
         payload.append(key, value);
       });
 
-      fetch("https://script.google.com/macros/s/AKfycbx3Wo9Ny6sZt9HARgx-JZWmr0jPifauxU9BXEr7bvj4NGdmc6nwPHN53BjWqFBcQsa5/exec", {
+      document.getElementById("loadingOverlay").style.display = "flex";
+
+      fetch("https://script.google.com/macros/s/AKfycbyzWi8IgZaR5Kt3v_H15F8pZ2-DjNiBiUwR4dIjA071zTZcDhC5ZuPoVXe9SkcwYhEJmA/exec", {
         method: "POST",
         body: payload,
         headers: {
@@ -207,15 +274,17 @@
       })
       .then(res => res.text())
       .then(res => {
+        document.getElementById("loadingOverlay").style.display = "none";
         if (res === "Success") {
-          alert("✅ Application Submitted Successfully! We’ll contact you soon.");
+          document.getElementById("popup").style.display = "flex";
           form.reset();
         } else {
           alert("❌ Error: " + res);
         }
       })
       .catch(err => {
-        alert("❌ Failed to submit: " + err);
+        document.getElementById("loadingOverlay").style.display = "none";
+        alert("❌ Failed to submit: " + err.message);
       });
     });
   </script>
