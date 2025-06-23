@@ -121,37 +121,24 @@
       margin-bottom: 20px;
       font-weight: 500;
     }
-
     .overlay, .popup {
       position: fixed;
       top: 0; left: 0;
       width: 100vw; height: 100vh;
-      display: flex;
+      display: none;
       justify-content: center;
       align-items: center;
       background: rgba(26, 77, 46, 0.9);
       z-index: 9999;
-      padding: 20px;
     }
-
-    .overlay {
-      display: none;
-      flex-direction: column;
-      text-align: center;
-    }
-
-    .popup {
-      display: none;
-      text-align: center;
-    }
-
     .popup-box {
       background: #ffffff;
       padding: 25px 15px;
       border-radius: 12px;
+      text-align: center;
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
       max-width: 280px;
-      width: 100%;
+      width: 75%;
     }
     .popup-box h3 {
       color: #1a4d2e;
@@ -179,7 +166,6 @@
       font-size: 18px;
       color: white;
       text-align: center;
-      margin-top: 15px;
     }
     .loader {
       border: 5px solid #c4f2e3;
@@ -188,7 +174,7 @@
       width: 40px;
       height: 40px;
       animation: spin 1s linear infinite;
-      margin: 0 auto;
+      margin: 15px auto;
     }
     @keyframes spin {
       0% { transform: rotate(0deg); }
@@ -258,8 +244,10 @@
   </section>
 
   <div class="overlay" id="loadingOverlay">
-    <div class="loader"></div>
-    <div class="loading-text">Processing your application...</div>
+    <div>
+      <div class="loader"></div>
+      <div class="loading-text">Processing your application...</div>
+    </div>
   </div>
 
   <div class="popup" id="popup">
@@ -317,3 +305,5 @@
   </script>
 </body>
 </html>
+
+
