@@ -96,6 +96,10 @@
       font-size: 14px;
       margin-bottom: 10px;
     }
+    textarea::placeholder {
+      color: #999;
+      font-style: italic;
+    }
     button[type="submit"] {
       margin-top: 20px;
       width: 100%;
@@ -124,20 +128,20 @@
       display: none;
       justify-content: center;
       align-items: center;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(26, 77, 46, 0.9);
       z-index: 9999;
     }
     .popup-box {
-      background: #fff;
+      background: #ffffff;
       padding: 25px 15px;
       border-radius: 12px;
       text-align: center;
       box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-      max-width: 250px;
+      max-width: 280px;
       width: 75%;
     }
     .popup-box h3 {
-      color: #0078d4;
+      color: #1a4d2e;
       margin-bottom: 10px;
       font-size: 18px;
     }
@@ -147,7 +151,7 @@
     }
     .popup-box button {
       margin-top: 20px;
-      background-color: #0078d4;
+      background-color: #1a4d2e;
       color: white;
       font-size: 12px;
       padding: 10px 20px;
@@ -156,16 +160,16 @@
       cursor: pointer;
     }
     .popup-box button:hover {
-      background-color: #005a9e;
+      background-color: #145034;
     }
     .loading-text {
       font-size: 18px;
-      color: #0078d4;
+      color: white;
       text-align: center;
     }
     .loader {
-      border: 5px solid #f3f3f3;
-      border-top: 5px solid #0078d4;
+      border: 5px solid #c4f2e3;
+      border-top: 5px solid white;
       border-radius: 50%;
       width: 40px;
       height: 40px;
@@ -187,13 +191,13 @@
   <section class="hero">
     <img src="2.png" alt="Framed VTU Logo" />
     <h1>YouTube Partner Hiring</h1>
-    <p>Zero Fee | Get Paid Immediately | Apply if you’re a topper or want experience!</p>
+    <p>Zero Joining Fee | Get Paid Immediately | Apply if you’re a topper or want experience to talk & Earn!</p>
     <button class="btn" onclick="document.getElementById('formSection').scrollIntoView({ behavior: 'smooth' })">Apply Now</button>
   </section>
 
   <section class="section" id="formSection">
     <h2>Apply Here</h2>
-    <div class="note">Fill this form carefully. You will be contacted with tasks & payments upon selection.</div>
+    <div class="note">Fill this form carefully. You will be contacted with job & salary</div>
     <form id="ytPartnerForm">
       <label for="name">Full Name</label>
       <input type="text" name="name" required />
@@ -218,13 +222,15 @@
         <option value="6th">6th Sem</option>
         <option value="7th">7th Sem</option>
         <option value="8th">8th Sem</option>
+        <option value="PG">PG</option>
+        <option value="Working">Working</option>
       </select>
 
       <label for="skills">Any Subjects you are confident in?</label>
-      <textarea name="skills" rows="2" required></textarea>
+      <textarea name="skills" rows="2" required placeholder="e.g., ADA, DMS, Python, any subject you can"></textarea>
 
       <label for="reason">Why do you want to join as YouTube Partner?</label>
-      <textarea name="reason" rows="2" required></textarea>
+      <textarea name="reason" rows="2" required placeholder="e.g., To Earn, To get more confidence to talk, To gain experience"></textarea>
 
       <label for="fear">Want to overcome stage fear or improve communication?</label>
       <select name="fear" required>
@@ -246,9 +252,9 @@
 
   <div class="popup" id="popup">
     <div class="popup-box">
-      <h3>Successfully Registered!</h3>
-      <p>Please check your email for further updates regarding your work.</p>
-      <button onclick="window.location.reload()">OK</button>
+      <h3>Application Submitted</h3>
+      <p>You’ll be contacted shortly with your job and salary details. Stay tuned!</p>
+      <button>OK</button>
     </div>
   </div>
 
@@ -276,6 +282,7 @@
       .then(res => {
         document.getElementById("loadingOverlay").style.display = "none";
         if (res === "Success") {
+          document.body.style.overflow = 'hidden';
           document.getElementById("popup").style.display = "flex";
           form.reset();
         } else {
@@ -286,6 +293,14 @@
         document.getElementById("loadingOverlay").style.display = "none";
         alert("❌ Failed to submit: " + err.message);
       });
+    });
+
+    document.getElementById("popup").addEventListener("click", function(event) {
+      if (event.target.tagName === "BUTTON") {
+        document.body.style.overflow = 'auto';
+        window.scrollTo(0, 0);
+        setTimeout(() => window.location.reload(), 100);
+      }
     });
   </script>
 </body>
